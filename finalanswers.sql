@@ -40,3 +40,21 @@ COUNT(*) FROM pokemon_trainer
 GROUP BY pokemon_id HAVING count(*) = 1;
 -----------------------------------------------------
 PART 4
+
+SELECT (hp+attack+defense+speed) /4 AS Strength,
+pokemons.name AS Pokemon_Name,
+trainers.trainername AS Trainer_Name,
+pokemon_trainer.pokelevel AS Level,
+t.name as Primary_Type,
+st.name AS Secondary_Type
+FROM pokemon_trainer
+JOIN pokemons ON pokemon_trainer.pokemon_id=pokemons.id
+JOIN trainers ON pokemon_trainer.trainerid=trainers.trainerid
+RIGHT JOIN types as t ON pokemons.primary_type=t.id
+LEFT JOIN types as st ON pokemons.secondary_type=st.id
+ORDER BY Strength DESC;
+
+I decided to take the average of four categories (hp, attack, defense, and speed) and derive the average from thos categories.
+I decided to label this metric as "Strength."
+I declined to include special attack or special defense in this metric because those are one-off attacks or defense maneuvers.
+I don't believe they represent the true underlying measurement of a pokemon's non-special-case abilities.
